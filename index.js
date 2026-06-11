@@ -13,11 +13,11 @@ const app = express();
 
 const instance = new ILovePDFApi(
   process.env.PUBLIC_KEY,
-  process.env.SECRET_KEY
+  process.env.SECRET_KEY,
 );
 
 if (!fs.existsSync("uploads")) {
-    fs.mkdirSync("uploads");
+  fs.mkdirSync("uploads");
 }
 
 app.use(cors());
@@ -80,14 +80,12 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
 
     const data = await task.download();
 
-    console.log(typeof data);
-    console.log(Buffer.isBuffer(data));
+    res.setHeader("Content-Disposition", "attachment; filename=compressed.pdf");
 
-    res.json({
-      success: true,
-      message: "PDF compressed successfully",
-      size: data.length,
-    });
+    res.setHeader("Content-Type", "application/pdf");
+
+    res.send(data);
+    
   } catch (err) {
     console.error(err);
 
@@ -103,5 +101,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
-
- 
