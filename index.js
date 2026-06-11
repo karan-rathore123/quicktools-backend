@@ -80,6 +80,9 @@ app.post("/compress", upload.single("pdf"), async (req, res) => {
 
     const data = await task.download();
 
+    console.log(typeof data);
+    console.log(Buffer.isBuffer(data));
+
     res.json({
       success: true,
       message: "PDF compressed successfully",
@@ -100,3 +103,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
+ 
