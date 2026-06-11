@@ -28,6 +28,13 @@ app.get("/", (req, res) => {
   res.send("QuickTools Backend Running");
 });
 
+app.get("/test-keys", (req, res) => {
+  res.json({
+    publicKeyExists: !!process.env.PUBLIC_KEY,
+    secretKeyExists: !!process.env.SECRET_KEY,
+  });
+});
+
 app.post("/upload", upload.single("pdf"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({
